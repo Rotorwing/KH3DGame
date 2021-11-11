@@ -31,7 +31,7 @@ function main() {
     const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
     
     const points = [];
-    src = camera.position.clone()
+    const src = camera.position.clone()
     src.y -= 0.1;
     points.push( src );
     points.push( new THREE.Vector3( 2, 0, 0 ) );
