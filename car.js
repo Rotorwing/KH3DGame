@@ -17,6 +17,13 @@ class Car extends RidgidBody{
         this.extraMeshes = new THREE.Group();
         this.meshes = [];
         window.loaders[file] = false;
+        if (window.isKhan){}
+            fileNameParts = file.split('.')
+            if (fileEtension.length > 1 && fileNameParts.at(-1) != "js"){
+                file = fileNameParts.slice(0, -1).join('.')+".js";
+
+            }
+        }
         this.finishLoad = function(gltf){
             {
             //this.model = gltf.scene;
