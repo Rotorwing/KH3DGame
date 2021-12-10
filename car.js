@@ -17,11 +17,12 @@ class Car extends RidgidBody{
         this.extraMeshes = new THREE.Group();
         this.meshes = [];
         window.loaders[file] = false;
-        if (window.isKhan){}
-            fileNameParts = file.split('.')
-            if (fileEtension.length > 1 && fileNameParts.at(-1) != "js"){
+        const originalFile = file
+        if (window.isKhan){
+            const fileNameParts = file.split('.')
+            if (fileNameParts.length > 1 && fileNameParts.at(-1) != "js"){
                 file = fileNameParts.slice(0, -1).join('.')+".js";
-
+                console.log("Loading "+String(originalFile)+" as "+String(file)+" for KH suport.")
             }
         }
         this.finishLoad = function(gltf){
@@ -89,7 +90,7 @@ class Car extends RidgidBody{
             {
             //setTimeout(()=>{
             this.loadDone = true;
-            window.loaders[file] = true;
+            window.loaders[originalFile] = true;
                 //}, 5000)
             }
         }
