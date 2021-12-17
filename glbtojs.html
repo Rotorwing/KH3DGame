@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <style>
+        #drop_zone {
+            border: 1px solid gray;
+            width:  200px;
+            height: 100px;
+            text-align: center;
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+        </style>
+        <script>
+            function download(filename, text) {
+                var element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                element.setAttribute('download', filename);
+
+                element.style.display = 'none';
+                document.body.appendChild(element);
+
+                element.click();
+
+                document.body.removeChild(element);
+            }
+            function convert(ev){
+                input = document.getElementById('file-input');
+                console.log(input.files);//ev.dataTransfer)
+                if (input.files.length>0){
+                    file = input.files[0];
+                    var parsed;
+                    const reader = new FileReader();
+                    reader.onload = (function(theFile) { return function(e) {
+                        const rootName = file.name.split('.').slice(0, -1).join('.')
+                        parsed = e.target.result;
+                        console.log(parsed);
+                        //parsed = parsed.slice(parsed.indexOf('base64,')+'base64,'.length, parsed.length)
+                        const result = 'window.'+rootName.replace("-", "_")+'_converted = "'+parsed+'";';//.replaceAll("`", "\`")
+                        //const result = parsed
+                        console.log(result);
+                        //console.log(atob(parsed));
+                        download(rootName+'_converted.js', result)
+                    
+                    }; })(file);
+                    //reader.readAsBinaryString(file);
+                    reader.readAsDataURL(file);
+                }
+                
+            }
+        </script>
+    </head>
+    
+    <body>
+        <div>Make sure to edit the glb file, removing any extra text from before the first "{".</div>
+        <input id="file-input" type="file" name="name" style="" />
+        <button onclick="convert();">Convert</button>
+    </body>
+    
+</html>

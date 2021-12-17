@@ -21,7 +21,10 @@ class Car extends RidgidBody{
         if (window.isKhan){
             const fileNameParts = file.split('.')
             if (fileNameParts.length > 1 && fileNameParts.at(-1) != "js"){
-                file = fileNameParts.slice(0, -1).join('.')+".js";
+                const varName = (fileNameParts.slice(0, -1).join('.')+"_converted").replace("-", "_").split("/").at(-1);
+                const base64File = window[varName];
+                console.log(base64File)
+                file = base64File //atob(base64File); //"base64,"+
                 console.log("Loading "+String(originalFile)+" as "+String(file)+" for KH suport.")
             }
         }
@@ -96,11 +99,19 @@ class Car extends RidgidBody{
         }
         /* Start Load */
         {
-        loader.load(file, function ( gltf ) {
+        if (window.isKhan){
+            loader.load(file, function ( gltf ) {
             this.finishLoad(gltf);
-        }.bind(this), undefined, function ( error ) {
-            console.error( error );
-        } );
+            }.bind(this), undefined, function ( error ) {
+                console.error( error );
+            } );
+        }else{
+            loader.load(file, function ( gltf ) {
+                this.finishLoad(gltf);
+            }.bind(this), undefined, function ( error ) {
+                console.error( error );
+            } );
+        }
         }
         
         
